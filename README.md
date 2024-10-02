@@ -1,11 +1,11 @@
 # Klipper-Backup 💾
-Klipper-Backup is a script for manual or automated GitHub backups. It's Lightweight, pragmatic and comfortable.
+Klipper-Backup is a script for manual or automated GitHub or Gitlab backups. It's Lightweight, pragmatic and comfortable.
 
 ## Installation
 
 ### Download:
 ```shell
-curl -fsSL get.klipperbackup.xyz | bash
+git clone https://github.com/Zehndiii/Klipper-Backup.git
 ```
 
 ### Installation/Configuration:
@@ -15,6 +15,10 @@ curl -fsSL get.klipperbackup.xyz | bash
 
 ## RTFM
 I would suggest reading the [docs](https://klipperbackup.xyz), as this provides detailed step-by-step instructions and further tips.
+Set the server address and server type in the .env file:
+
+server_address="github.com" # eg "gitlab.local" or "gitlab.company.com"
+server_type="GITHUB"        # "GITHUB" or "GITLAB"
 
 ## YouTube
 There are several YouTube videos about Klipper-Backup - thanks to everyone!

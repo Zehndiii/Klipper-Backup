@@ -49,7 +49,7 @@ install_repo() {
         if [ ! -d "klipper-backup" ]; then
             loading_wheel "${Y}●${NC} Installing Klipper-Backup" &
             loading_pid=$!
-            git clone https://github.com/Staubgeborener/klipper-backup.git 2>/dev/null
+            git clone https://github.com/Zehndiii/klipper-backup.git 2>/dev/null
             chmod +x ./klipper-backup/script.sh
             cp ./klipper-backup/.env.example ./klipper-backup/.env
             sleep .5
@@ -111,11 +111,27 @@ configure() {
         clearUp
         pos1=$(getcursor)
         pos2=$(getcursor)
+        getHost() {
+            pos2=$(getcursor)
+            git_host=$(ask_textinput "Enter your git host name")
 
+            menu
+            exitstatus=$?
+            if [ $exitstatus = 0 ]; then
+                sed -i "s/^git_host=.*/github_token=$ghtoken/" "$HOME/klipper-backup/.env"
+                tput cup $pos2 0
+                tput ed
+           else
+                tput cup $(($pos2 - 1)) 0
+                tput ed
+                getHost
+            fi
+        }
         getToken() {
             echo -e "See the following for how to create your token: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens (Ensure you set access to the backup repository and have push/pull & commit permissions for the token) \n"    
             ghtoken=$(ask_token "Enter your GitHub token")
-            result=$(check_ghToken "$ghtoken") # Check Github Token using github API to ensure token is valid and connection can be estabilished to github
+            server_type= echo $git_host | grep -oP 'github|gitlab' || echo "github"
+            result=$(check_ghToken "$ghtoken" "$server_type" "$git_host") # Check Github Token using github API to ensure token is valid and connection can be estabilished to github
             if [ "$result" != "" ]; then
                 sed -i "s/^github_token=.*/github_token=$ghtoken/" "$HOME/klipper-backup/.env"
                 ghtoken_username=$result
@@ -210,6 +226,7 @@ configure() {
 
         while true; do
             set +e
+            getHost
             getToken
             getUser
             getRepo
