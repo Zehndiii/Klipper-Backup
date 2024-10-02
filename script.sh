@@ -25,6 +25,7 @@ backup_path="$HOME/$backup_folder"
 allow_empty_commits=${allow_empty_commits:-true}
 git_protocol=${git_protocol:-"https"}
 git_host=${git_host:-"github.com"}
+
 if [[ $git_protocol == "ssh" ]]; then
     full_git_url="git@"$git_host":"$github_username"/"$github_repository".git"
 else
@@ -246,7 +247,7 @@ fi
 cd "$backup_path"
 # Create and add Readme to backup folder if it doesn't already exist
 if ! [ -f "README.md" ]; then
-    echo -e "# Klipper-Backup 💾 \nKlipper backup script for manual or automated GitHub backups \n\nThis backup is provided by [Klipper-Backup](https://github.com/Staubgeborener/klipper-backup)." >"$backup_path/README.md"
+    echo -e "# Klipper-Backup 💾 \nKlipper backup script for manual or automated GitHub backups \n\nThis backup is provided by [Klipper-Backup](https://github.com/Zehndiii/klipper-backup)." >"$backup_path/README.md"
 fi
 # Untrack all files so that any new excluded files are correctly ignored and deleted from remote
 git rm -r --cached . >/dev/null 2>&1
