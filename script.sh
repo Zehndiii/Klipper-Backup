@@ -30,7 +30,8 @@ if [[ $git_protocol == "ssh" ]]; then
     full_git_url="git@"$git_host":"$github_username"/"$github_repository".git"
 else
     server_type= echo $git_host | grep -oP 'github|gitlab' || echo "github"
-    if [[ $server_type == "gitlab"]]; then
+    echo $server_type
+    if [[ $server_type == "gitlab" ]]; then
         full_git_url=$git_protocol"://PRIVATE-TOKEN:"$github_token"@"$git_host"/"$github_repository".git"
     else
         full_git_url=$git_protocol"://"$github_token"@"$git_host"/"$github_username"/"$github_repository".git"
