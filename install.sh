@@ -118,7 +118,7 @@ configure() {
             menu
             exitstatus=$?
             if [ $exitstatus = 0 ]; then
-                sed -i "s/^git_host=.*/github_token=$ghtoken/" "$HOME/klipper-backup/.env"
+                sed -i "s/^git_host=.*/git_host=$git_host/" "$HOME/klipper-backup/.env"
                 tput cup $pos2 0
                 tput ed
            else
