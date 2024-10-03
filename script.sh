@@ -29,15 +29,15 @@ git_host=${git_host:-"github.com"}
 if [[ $git_protocol == "ssh" ]]; then
     full_git_url="git@"$git_host":"$github_username"/"$github_repository".git"
 else
-    server_type= echo $git_host | grep -oP 'github|gitlab' || echo "github"
-    echo $server_type
-    if [[ $server_type == "gitlab" ]]; then
-        full_git_url=$git_protocol"://PRIVATE-TOKEN:"$github_token"@"$git_host"/"$github_username"/"$github_repository".git"
+    server_type= $(echo $git_host | grep -oP 'github|gitlab' || echo "github")
+    if [[ "$server_type" == "gitlab" ]]; then
+        full_git_url=$git_protocol"://PRIVATE-TOKEN:"$github_token"@"$git_host"/"$github_repository".git"
     else
         full_git_url=$git_protocol"://"$github_token"@"$git_host"/"$github_username"/"$github_repository".git"
     fi
 fi
 exclude=${exclude:-"*.swp" "*.tmp" "printer-[0-9]*_[0-9]*.cfg" "*.bak" "*.bkp" "*.csv" "*.zip"}
+
 
 # Required for checking the use of the commit_message and debug parameter
 commit_message_used=false
