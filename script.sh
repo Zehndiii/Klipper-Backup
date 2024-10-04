@@ -247,7 +247,7 @@ done
 
 # Individual commit message, if no parameter is set, use the current timestamp as commit message
 if ! $commit_message_used; then
-    commit_message="New backup from $(date +"%x - %X")"
+    commit_message="New backup from $(date +"%x - %T")"
 fi
 
 cd "$backup_path"

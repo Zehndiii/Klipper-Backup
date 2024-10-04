@@ -6,6 +6,7 @@ parent_path=$(
     cd "$(dirname "${BASH_SOURCE[0]}")"
     pwd -P
 )
+user_home="$HOME"
 
 if [[ ! -f .env ]]; then
     cp $parent_path/.env.example $parent_path/.env
@@ -496,6 +497,63 @@ install_cron() {
         echo -e "\r\033[K${M}●${NC} Installing cron task ${M}Skipped! (Already Installed)${NC}\n"
     fi
 }
+
+install_anacron() {
+    questionline=$(getcursor)
+    if ! (cat "$userhome".anacron/etc/anacrontab 2>/dev/null | grep -q "klipper_backup"); then
+        if ask_yn "Would you like to install the anacron task? (automatic backup every week)"; then
+            tput cup $(($questionline - 2)) 0
+            tput ed
+            pos1=$(getcursor)
+            loading_wheel "${Y}●${NC} Installing anacron task" &
+            
+            loading_pid=$!
+
+            # install anacron if needed
+            check_dependencies "anacron"
+
+            create local foler 
+            mkdir -p "$user_home"/.anacron/{etc,spool}
+
+            # create anacrtontab fiel if it does not excist
+            $anacrontab= "$user_home"/.anacron/etc/anacrontab
+            # Check if file exists and is not empty
+            if [ ! -s "$anacrontab" ]; then
+                cp  "$anacrontab"  # Create a non-empty file if it doesn't exist
+                echo "creating user anacront file"
+            fi
+
+            # check that the anacron is run by cron
+            if ! (crontab -l 2>/dev/null | grep -q ".anacron/etc/anacrontab"); then
+                (
+                crontab -l 2>/dev/null
+                echo "@hourly /usr/sbin/anacron -s -t $HOME/.anacron/etc/anacrontab -S $HOME/.anacron/spool"
+                ) | crontab -
+                echo "add anacron to cron task list"
+            else
+                echo  "anacron already in cron tasks"
+            fi
+
+            
+            # append anacron job to anacrontab file
+            sed -i -e "$a\"$"\n""7 10  klipper_backup  $HOME/klipper-backup/script.sh --commit_message \"Weekly backup $(date +\"%x - %T\")\" && echo "Running weekly git backup"  | systemd-cat -t Kllipper-Backup -p info" "$anacrontab"
+            
+            sleep .5
+            kill $loading_pid
+            echo -e "\r\033[K${G}●${NC} Installing cron task ${G}Done!${NC}\n"
+        else
+            tput cup $(($questionline - 2)) 0
+            tput ed
+            echo -e "\r\033[K${M}●${NC} Installing anacron task ${M}Skipped!${NC}\n"
+        fi
+    else
+        tput cup $(($questionline - 2)) 0
+        tput ed
+        echo -e "\r\033[K${M}●${NC} Installing anacron task ${M}Skipped! (Already Installed)${NC}\n"
+    fi
+
+}
+
 
 if [ "$1" == "check_updates" ]; then
     check_updates

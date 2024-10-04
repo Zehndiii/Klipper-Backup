@@ -13,6 +13,11 @@ git clone https://github.com/Zehndiii/Klipper-Backup.git
 ~/klipper-backup/install.sh
 ```
 
+If you want to do manual backups use the provided macros. During installation copy the macro file and inclue the file in your printer.cfg. 
+This function is dependent on the gcode shell command you can get it from kiauh.
+
+To scedule weekly jobs you can use anacron.
+
 ## RTFM
 I would suggest reading the [docs](https://klipperbackup.xyz), as this provides detailed step-by-step instructions and further tips.
 Set the server address and server type in the .env file:
