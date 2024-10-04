@@ -516,7 +516,7 @@ install_anacron() {
             mkdir -p "$HOME"/.anacron/{etc,spool}
 
             # create anacrtontab fiel if it does not excist
-            $anacrontab="$HOME/.anacron/etc/anacrontab"
+            $anacrontab=$("$HOME/.anacron/etc/anacrontab")
             echo $anacrontab
 
             # Check if file exists and is not empty
