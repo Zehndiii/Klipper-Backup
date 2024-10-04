@@ -166,14 +166,14 @@ function menu() {
 check_ghToken() {
     GITHUB_TOKEN="$1"
 
-    if [ "$2" = "github" ]; then
-        API_URL="https://api.github.com/user"
-        AUTH_HEADER="Authorization: token $GITHUB_TOKEN"
-        USER_FIELD=".login"
-    else
+    if [ "$2" = "gitlab" ]; then
         API_URL="$3/api/v4/user"
         AUTH_HEADER="PRIVATE-TOKEN: $GITHUB_TOKEN"
         USER_FIELD=".username"
+    else
+        API_URL="https://api.github.com/user"
+        AUTH_HEADER="Authorization: token $GITHUB_TOKEN"
+        USER_FIELD=".login"
     fi
 
     response=$(curl -s -H "$AUTH_HEADER" "$API_URL")
