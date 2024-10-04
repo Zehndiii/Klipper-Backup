@@ -295,7 +295,7 @@ install_macros() {
         tput cup $(($questionline - 2)) 0
         tput ed
         pos1=$(getcursor)
-        loading_wheel "${Y}●${NC} Adding klipper-backup to update manager" &
+        loading_wheel "${Y}●${NC} Adding klipper-backup macros to printer config folder" &
         loading_pid=$!
         ### copy file to printer config folder
         /usr/bin/env bash -c "cp $parent_path/install-files/git_backup.cfg $HOME/printer_data/config/git_backup.cfg"
@@ -303,6 +303,7 @@ install_macros() {
         kill $loading_pid
         echo -e "\r\033[K${G}●${NC} Adding klipper-backup macros to printer config folder ${G}Done!${NC}\n"
         echo -e "\r\033[K${G}●${C} To enable the macros add the following line to your printer.cfg : [include git_backup.cfg]${NC}\n"
+        echo -e "\r\033[K ${C} You need to install gcode_shell_command from kiauh! ${NC}\n"
     else
         tput cup $(($questionline - 2)) 0
         tput ed
