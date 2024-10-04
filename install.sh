@@ -30,6 +30,7 @@ main() {
     install_filewatch_service
     install_backup_service
     install_cron
+    install_anacron
     echo -e "${G}●${NC} Installation Complete!\n  For help or further information, read the docs: https://klipperbackup.xyz"
 }
 
@@ -302,8 +303,8 @@ install_macros() {
         /usr/bin/env bash -c "cp $parent_path/install-files/git_backup.cfg $HOME/printer_data/config/git_backup.cfg"
         
         kill $loading_pid
-        echo -e "\r\033[K${G}●${NC} Adding klipper-backup macros to printer config folder ${G}Done!${NC}\n"
-        echo -e "\r\033[K${G}●${C} To enable the macros add the following line to your printer.cfg : [include git_backup.cfg]${NC}\n"
+        echo -e "\r\033[K${G}●${NC} Adding klipper-backup macros to printer config folder ${G}Done!${NC}"
+        echo -e "\r\033[K${G}●${C} To enable the macros add the following line to your printer.cfg : [include git_backup.cfg]${NC}"
         echo -e "\r\033[K ${C} You need to install gcode_shell_command from kiauh! ${NC}\n"
     else
         tput cup $(($questionline - 2)) 0
@@ -311,7 +312,6 @@ install_macros() {
         echo -e "\r\033[K${M}●${NC} Adding klipper-backup macros to printer config folder ${M}Skipped!${NC}\n"
     fi
 }
-
 
 
 install_filewatch_service() {
