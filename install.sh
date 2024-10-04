@@ -480,7 +480,7 @@ install_cron() {
             loading_wheel "${Y}●${NC} Installing cron task" &
             loading_pid=$!
             (
-                crontab -l 2>/dev/null
+                crontab -l 2>/dev/null;
                 echo "0 */4 * * * $HOME/klipper-backup/script.sh -c \"Cron backup - \$(date +\"%x - %X\")\""
             ) | crontab -
             sleep .5
@@ -521,14 +521,14 @@ install_anacron() {
 
             # Check if file exists and is not empty
             if [ ! -s "$anacrontab" ]; then
-                /usr/bin/env bash -c "cp $parent_path/install-files/git_backup.cfg $anacrontab"  # Create a non-empty file if it doesn't exist
+                /usr/bin/env bash -c "cp $parent_path/install-files/anacrontab $anacrontab"  # Create a non-empty file if it doesn't exist
                 echo "creating user anacront file"
             fi
 
             # check that the anacron is run by cron
             if ! (crontab -l 2>/dev/null | grep -q ".anacron/etc/anacrontab"); then
                 (
-                crontab -l 2>/dev/null
+                crontab -l 2>/dev/null;
                 echo "@hourly /usr/sbin/anacron -s -t $HOME/.anacron/etc/anacrontab -S $HOME/.anacron/spool"
                 ) | crontab -
                 echo "add anacron to cron task list"
