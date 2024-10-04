@@ -516,10 +516,12 @@ install_anacron() {
             mkdir -p "$HOME"/.anacron/{etc,spool}
 
             # create anacrtontab fiel if it does not excist
-            $anacrontab= "$HOME"/.anacron/etc/anacrontab
+            $anacrontab="$HOME/.anacron/etc/anacrontab"
+            echo $anacrontab
+
             # Check if file exists and is not empty
             if [ ! -s "$anacrontab" ]; then
-                cp  "$anacrontab"  # Create a non-empty file if it doesn't exist
+                /usr/bin/env bash -c "cp $parent_path/install-files/git_backup.cfg $anacrontab"  # Create a non-empty file if it doesn't exist
                 echo "creating user anacront file"
             fi
 
