@@ -25,6 +25,7 @@ main() {
     install_repo
     configure
     patch_klipper-backup_update_manager
+    install_macros
     install_filewatch_service
     install_backup_service
     install_cron
@@ -286,6 +287,30 @@ patch_klipper-backup_update_manager() {
         echo -e "${R}●${NC} Moonraker is not installed update manager configuration ${R}Skipped!${NC}\n${Y}● Please install moonraker then run the script again to update the moonraker configuration${NC}\n"
     fi
 }
+
+
+install_macros() {
+    questionline=$(getcursor)
+    if ask_yn "Would you like to add klipper-backup macros to your printer config folder?"; then
+        tput cup $(($questionline - 2)) 0
+        tput ed
+        pos1=$(getcursor)
+        loading_wheel "${Y}●${NC} Adding klipper-backup to update manager" &
+        loading_pid=$!
+        ### copy file to printer config folder
+        /usr/bin/env bash -c "cp $parent_path/install-files/git_backup.cfg $HOME/printer_data/config/git_backup.cfg"
+        
+        kill $loading_pid
+        echo -e "\r\033[K${G}●${NC} Adding klipper-backup macros to printer config folder ${G}Done!${NC}\n"
+        echo -e "\r\033[K${G}●${C} To enable the macros add the following line to your printer.cfg : [include git_backup.cfg]${NC}\n"
+    else
+        tput cup $(($questionline - 2)) 0
+        tput ed
+        echo -e "\r\033[K${M}●${NC} Adding klipper-backup macros to printer config folder ${M}Skipped!${NC}\n"
+    fi
+}
+
+
 
 install_filewatch_service() {
     questionline=$(getcursor)
