@@ -536,7 +536,7 @@ install_anacron() {
 
             
             # append anacron job to anacrontab file
-            sed -i -e "$a\"$"\n""7 10  klipper_backup  $HOME/klipper-backup/script.sh --commit_message \"Weekly backup $(date +\"%x - %T\")\" && echo \"Running weekly git backup\"  | systemd-cat -t Kllipper-Backup -p info" "$anacrontab"
+            sed -i -e '$a\'$'\n''7 10  klipper_backup  $HOME/klipper-backup/script.sh --commit_message "Weekly backup $(date +"%x - %T")" && echo "Running weekly git backup"  | systemd-cat -t Kllipper-Backup -p info' "$anacrontab"  
             
             sleep .5
             kill $loading_pid
