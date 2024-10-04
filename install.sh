@@ -6,7 +6,7 @@ parent_path=$(
     cd "$(dirname "${BASH_SOURCE[0]}")"
     pwd -P
 )
-user_home="$HOME"
+
 
 if [[ ! -f .env ]]; then
     cp $parent_path/.env.example $parent_path/.env
@@ -500,7 +500,7 @@ install_cron() {
 
 install_anacron() {
     questionline=$(getcursor)
-    if ! (cat "$userhome".anacron/etc/anacrontab 2>/dev/null | grep -q "klipper_backup"); then
+    if ! (cat "$HOME".anacron/etc/anacrontab 2>/dev/null | grep -q "klipper_backup"); then
         if ask_yn "Would you like to install the anacron task? (automatic backup every week)"; then
             tput cup $(($questionline - 2)) 0
             tput ed
@@ -512,11 +512,11 @@ install_anacron() {
             # install anacron if needed
             check_dependencies "anacron"
 
-            create local foler 
-            mkdir -p "$user_home"/.anacron/{etc,spool}
+            #create local foler 
+            mkdir -p "$HOME"/.anacron/{etc,spool}
 
             # create anacrtontab fiel if it does not excist
-            $anacrontab= "$user_home"/.anacron/etc/anacrontab
+            $anacrontab= "$HOME"/.anacron/etc/anacrontab
             # Check if file exists and is not empty
             if [ ! -s "$anacrontab" ]; then
                 cp  "$anacrontab"  # Create a non-empty file if it doesn't exist
